@@ -83,6 +83,37 @@ render(<Demos.AnimationEx3 />);
 // render(<App />)
 ```
 
+```js
+//correction
+import React from "react";
+import styled, { keyframes } from "styled-components";
+
+const App = ({ children = "hello" }) => {
+  return <Wrapper>{children}</Wrapper>;
+};
+
+const fadeIn = keyframes `
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+`
+
+const Wrapper = styled.div`
+  padding: 40px;
+  box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  animation: ${fadeIn} 1500ms;
+`;
+
+export default App;
+
+```
+
 ---
 
 https://codesandbox.io/s/keen-tharp-nkleq
@@ -98,6 +129,34 @@ const Wrapper = styled.div`
 
 render(<Demos.AnimationEx4 />);
 // render(<App />)
+```
+
+```js
+//corrected
+import React from "react";
+import styled, {keyframes} from "styled-components";
+
+const App = () => {
+  return <Wrapper>🛸</Wrapper>;
+};
+
+const fadeIn = keyframes `
+  from {
+    transform: translateX(-200px);
+    opacity: 0.1;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+`
+
+const Wrapper = styled.div`
+  font-size: 72px;
+  animation: ${fadeIn} 1000ms;
+`;
+
+export default App;
 ```
 
 ---

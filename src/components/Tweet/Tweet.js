@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import format from "date-fns/format";
 
 import LikeButton from '../LikeButton';
 
@@ -12,6 +13,12 @@ const propTypes = {
   username: PropTypes.string.isRequired,
   avatarSrc: PropTypes.string.isRequired,
   tweetContents: PropTypes.string.isRequired,
+  numOfRetweets: PropTypes.number.isRequired,
+  numOfLikes: PropTypes.number.isRequired,
+  isLikedByCurrentUser: PropTypes.bool.isRequired,
+  isRetweetedByCurrentUser: PropTypes.bool.isRequired,
+  handleToggleLike: PropTypes.func.isRequired,
+  handleToggleRetweet: PropTypes.func.isRequired,
 };
 
 const Tweet = ({
@@ -37,7 +44,13 @@ const Tweet = ({
         </Name>
       </Header>
 
-      <TweetContents>{tweetContents}</TweetContents>
+      <TweetContents>{tweetContents}
+        <Timestamp>{format(timestamp, "h:mm A · MMM Mo, YYYY")}</Timestamp>
+      </TweetContents>
+
+      <Divider />
+
+      <Stats>{numOfRetweets} Retweets {numOfLikes} Likes</Stats>
 
       <Divider />
 
@@ -143,6 +156,7 @@ const Stats = styled.div`
   display: flex;
   align-items: center;
   height: 48px;
+  color: rgb(101, 119, 134);
 `;
 
 const Actions = styled.div`
