@@ -61,6 +61,7 @@ const Button = styled.button`
   height: 80px;
   background: transparent;
   border: none;
+  cursor: pointer; //corection
 `;
 
 const ButtonLayer = styled.div`
@@ -81,11 +82,14 @@ const Surface = styled(ButtonLayer)`
   justify-content: center;
   align-items: center;
   font-size: 32px;
-  transition: transform 400ms cubic-bezier(0, 0.68, 0.67, 1.09);
 
-  &:hover {
-    transform: translate(-10px, -10px);
-  }
+  @media(prefers-reduced-motion: no-preference){
+    transition: transform 400ms cubic-bezier(0, 0.68, 0.67, 1.09);
+
+    &:hover {
+      transform: translate(-10px, -10px);
+    }
+  } //correction
 `;
 
 const Shadow = styled(ButtonLayer)`
@@ -123,7 +127,10 @@ const Ball = styled.button`
   background: red;
   border-radius: 50%;
   border: none;
-  animation: ${bounce} 600ms alternate ease-out infinite;
+
+  @media(prefers-reduced-motion: no-preference) {
+    animation: ${bounce} 600ms alternate ease-out infinite;
+  } //correction
 `;
 
 render(<Demo />);
@@ -134,6 +141,7 @@ render(<Demo />);
 ```jsx live=true split=[80,20]
 const Demo = ({ children = 'Hello' }) => {
   const [enabled, setEnabled] = React.useState(false);
+
   return (
     <Wrapper onClick={() => setEnabled(!enabled)}>
       <Ball
@@ -220,7 +228,13 @@ const Card = ({ isVisible, children }) => {
     opacity: isVisible ? 1 : 0,
     transform: isVisible ? 'translateY(0px)' : 'translateY(10px)',
   });
-
+const [motion, setMotion] = React.useState(true);
+  
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: no-preference)");
+    setMotion(mediaQuery.matches);
+  }, [])
+  
   return <Wrapper style={style}>{children}</Wrapper>;
 };
 

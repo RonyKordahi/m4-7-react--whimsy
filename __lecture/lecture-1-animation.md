@@ -172,6 +172,8 @@ const Shadow = styled(ButtonLayer)`
 
 ---
 
+https://codesandbox.io/s/distracted-robinson-sy4up
+
 ```jsx live=true split=[80,20]
 const App = () => {
   const [on, setOn] = React.useState(false);
@@ -466,4 +468,58 @@ const Button = styled.button`
 `;
 
 render(<App />);
+```
+
+```js
+//corected
+import React from "react";
+import styled from "styled-components";
+import { useSpring, animated } from "react-spring"
+
+const Card = ({ isVisible, children }) => {
+  
+const spring = useSpring({
+  opacity: isVisible ? 1 : 0,
+  transform: isVisible ? "translateY(0px)" : "translateY(10px)"
+})
+
+  return (
+    <CardWrapper
+      style={{...spring}}
+    >
+      {children}
+    </CardWrapper>
+  );
+};
+
+const CardWrapper = styled(animated.div)`
+  box-shadow: 3px 3px 6px black;
+  border-radius: 10px;
+  padding: 50px;
+`;
+
+const App = () => {
+  const [showCard, setShowCard] = React.useState(false);
+
+  return (
+    <Wrapper>
+      <Button onClick={() => setShowCard(!showCard)}>Show Card</Button>
+      <Card isVisible={showCard}>Hello World</Card>
+    </Wrapper>
+  );
+};
+
+const Wrapper = styled.div`
+  text-align: center;
+  margin-top: 60px;
+  width: 260px;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`;
+
+export default App;
 ```
